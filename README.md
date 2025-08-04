@@ -48,6 +48,30 @@ model.load_state_dict(torch.load('checkpoints/vit_epoch10.pt', map_location=cfg[
 visualize_attention(model, image_tensor)
 ```
 
+## Theory
+
+Below is the high-level theory behind our Vision Transformer:
+
+1. **Patch Embedding**  
+   Each input image is split into patches and linearly projected into embeddings…
+   
+2. **Self-Attention & Transformer Blocks**  
+   The embeddings are processed via multi-head self-attention, followed by MLP layers…
+
+---  
+### Figures
+
+<p align="center">
+  <img src="docs/images/Embedding.jpeg" alt="Patch Embedding Diagram" width="400"/><br/>
+  <em>Figure 1: How image patches are embedded into tokens.</em>
+</p>
+
+<p align="center">
+  <img src="docs/images/Transforming.jpeg" alt="Self-Attention Flow" width="400"/><br/>
+  <em>Figure 2: Overview of the Transformer block operations.</em>
+</p>
+
+
 ## 📚 Features
 - From-scratch ViT implementation
 - Configurable via `config.py`
