@@ -10,3 +10,6 @@ __pycache__/
 
 # ignore this specific test file
 test_torch.py
+
+# macOS Finder metadata
+.DS_Store
