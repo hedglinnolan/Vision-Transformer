@@ -1,0 +1,12 @@
+# ignore CIFAR dataset and checkpoints
+data/cifar-10-python.tar.gz
+checkpoints/*.pt
+
+# ignore your “Test Figure” folder
+/Test Figure/
+
+# ignore Python cache folders
+__pycache__/
+
+# ignore this specific test file
+test_torch.py
