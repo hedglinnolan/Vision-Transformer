@@ -85,3 +85,112 @@ Below is the high-level theory behind our Vision Transformer:
 - Data augmentation pipelines
 - Pretrained weights loading
 - Experiment logging (TensorBoard, W&B)
+
+
+
+---
+
+## 🧪 Model Configuration Reference: Vision Transformer
+
+This section lists **all configurable parameters and architectural components** in this Vision Transformer (ViT) pipeline. Use it as a guide for experimentation and model tuning.
+
+---
+
+### 📐 Input & Patching
+
+| Parameter             | Description                                                  |
+| --------------------- | ------------------------------------------------------------ |
+| `image_size`          | Dimensions of input image (e.g., 224×224, 384×384)           |
+| `patch_size`          | Size of each square patch (e.g., 16, 8, 32)                  |
+| `in_channels`         | Number of image channels (3 for RGB, more for multispectral) |
+| `flattened_patch_dim` | Implicit from `patch_size × patch_size × in_channels`        |
+
+---
+
+### 🧱 Model Architecture
+
+| Parameter           | Description                                                     |
+| ------------------- | --------------------------------------------------------------- |
+| `embed_dim`         | Dimension of patch embeddings and attention vectors (e.g., 768) |
+| `depth`             | Number of transformer encoder layers                            |
+| `num_heads`         | Number of self-attention heads per layer                        |
+| `mlp_dim`           | Hidden size of the feed-forward network (FFN) in each layer     |
+| `dropout`           | Dropout applied globally (embeddings, MLP, etc.)                |
+| `attention_dropout` | Dropout applied inside attention weights (if implemented)       |
+| `cls_token`         | Classification token (can be replaced by pooling)               |
+| `pos_embed`         | Positional encoding: learned or fixed (e.g., sinusoidal)        |
+| `attention_type`    | Full, local, windowed, or sparse attention (for scalability)    |
+| `normalization`     | `LayerNorm`, `BatchNorm`, or `RMSNorm` placement and type       |
+
+---
+
+### ⚙️ Training Configuration
+
+| Parameter           | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `batch_size`        | Number of images per training step                |
+| `epochs`            | Number of complete training passes                |
+| `optimizer`         | Optimizer algorithm (e.g., AdamW, SGD, LAMB)      |
+| `learning_rate`     | Initial learning rate                             |
+| `weight_decay`      | L2 regularization coefficient                     |
+| `scheduler`         | Learning rate decay method (e.g., cosine, warmup) |
+| `gradient_clipping` | Max gradient norm to prevent explosion            |
+
+---
+
+### 📊 Loss Function & Label Setup
+
+| Parameter       | Description                                                     |
+| --------------- | --------------------------------------------------------------- |
+| `loss_type`     | `CrossEntropy`, `Focal`, or label smoothing                     |
+| `num_classes`   | Number of output classes                                        |
+| `multi_label`   | If true, uses sigmoid + BCE loss for multilabel output          |
+| `class_weights` | Custom weights for imbalanced classes (e.g., riot vs. non-riot) |
+
+---
+
+### 🗺️ Input Data Strategy
+
+| Parameter            | Description                                      |
+| -------------------- | ------------------------------------------------ |
+| `crop_size`          | Size of image snippet (e.g., 672m × 672m)        |
+| `patch_overlap`      | Whether overlapping patches are used             |
+| `augmentations`      | Rotation, brightness, blur, jitter, etc.         |
+| `normalization`      | Mean/std scaling per channel                     |
+| `label_granularity`  | Image-level, patch-level, or pixel-level labels  |
+| `riot_balance_ratio` | Percent of riot vs. non-riot samples in training (not yet implemented) |
+
+---
+
+### 🎯 Task Objective
+
+| Parameter           | Description                                             |
+| ------------------- | ------------------------------------------------------- |
+| `output_mode`       | Classification, regression, segmentation, forecasting   |
+| `auxiliary_heads`   | Optional heads: e.g., attention maps, region detection  |
+| `multi_task`        | Predict multiple outputs (e.g., riot risk + crowd size) |
+| `temporal_modeling` | Enable sequential data (e.g., ViViT, ConvLSTM)          |
+| `metadata_inputs`   | Add ACLED, census, time, weather, etc.                  |
+
+---
+
+### 📈 Evaluation & Visualization
+
+| Parameter        | Description                                |
+| ---------------- | ------------------------------------------ |
+| `metrics`        | Accuracy, AUC, precision, recall, F1       |
+| `visualizations` | Attention maps, token heatmaps, saliency   |
+| `explainability` | SHAP, LIME, Grad-CAM, Integrated Gradients |
+
+---
+
+### 🧠 Advanced Research Controls
+
+| Parameter                | Description                                               |
+| ------------------------ | --------------------------------------------------------- |
+| `token_pruning`          | Prune low-importance tokens during inference              |
+| `hierarchical_attention` | Swin-style local + global transformers                    |
+| `shared_weights`         | Share encoder weights across layers (parameter-efficient) |
+| `dynamic_depth`          | Early exit layers during inference                        |
+| `prompt_tuning`          | Use learned text/image prompts (e.g., CLIP-style)         |
+| `pretraining_strategy`   | From-scratch, supervised, or self-supervised (MAE, DINO)  |
